@@ -3,41 +3,43 @@
 public class OrganizationsService
 {
    private readonly ApplicationDbContext _dbContext;
+   private readonly IMapper _mapper;
 
-   public OrganizationsService(ApplicationDbContext dbContext)
+   public OrganizationsService(ApplicationDbContext dbContext, IMapper mapper)
    {
       _dbContext = dbContext;
+      _mapper = mapper;
    }
 
-   public async Task<IEnumerable<Organization>> GetAllAsync() => await _dbContext.Organizations.ToListAsync();
-   public async Task<Organization> GetBySlugAsync(string slug) => await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Slug == slug);
+   public async Task<IEnumerable<OrganizationDto>> GetAllAsync() => await _dbContext.Organizations.ProjectTo<OrganizationDto>(_mapper.ConfigurationProvider).ToListAsync();
+   public async Task<OrganizationDto> GetBySlugAsync(string slug) => await _dbContext.Organizations.ProjectTo<OrganizationDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Slug == slug);
 
-   public async Task<Organization> AddAsync(Organization organization)
+   public async Task<OrganizationDto> AddAsync(OrganizationDto dto)
    {
-      _dbContext.Add(organization);
+      var entity = _mapper.Map<OrganizationDto, Organization>(dto);
+      _dbContext.Add(entity);
       await _dbContext.SaveChangesAsync();
-      return organization;
+      return dto;
    }
    
-   public async Task<Organization> UpdateAsync(string slug, Organization organization)
+   public async Task<OrganizationDto> UpdateAsync(string slug, OrganizationDto dto)
    {
-      var modelBySlug = await _dbContext.Organizations.AsNoTracking().Select(x => new { x.Id, x.Slug }).FirstOrDefaultAsync(x => x.Slug == slug);
-      if (modelBySlug is null) return null;
+      var entity = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Slug == slug);
+      if (entity is null) return null;
 
-      organization.Id = modelBySlug.Id;
-
-      _dbContext.Update(organization);
+      entity = _mapper.Map(dto, entity);
       await _dbContext.SaveChangesAsync();
-      return organization;
+
+      return dto;
    }
 
-   public async Task<Organization> DeleteAsync(string slug)
+   public async Task<OrganizationDto> DeleteAsync(string slug)
    {
       var modelToDelete = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Slug == slug);
       if (modelToDelete == null) return null;
 
       _dbContext.Remove(modelToDelete);
       await _dbContext.SaveChangesAsync();
-      return modelToDelete;
+      return _mapper.Map<OrganizationDto>(modelToDelete);
    }
 }

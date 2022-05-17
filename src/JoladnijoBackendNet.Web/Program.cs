@@ -1,4 +1,5 @@
-﻿using JoladnijoBackendNet.Web.Entities;
+﻿using FluentValidation.AspNetCore;
+using JoladnijoBackendNet.Web.Entities;
 using JoladnijoBackendNet.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,11 +11,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(
         builder.Configuration.GetConnectionString("MySql"), new MySqlServerVersion(new Version(8, 0)), mysqlOptions => mysqlOptions.UseNetTopologySuite()
         )
     );
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<ContactsService>();
 builder.Services.AddScoped<OrganizationsService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

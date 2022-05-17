@@ -14,11 +14,11 @@ namespace JoladnijoBackendNet.Web.Controllers
       }
 
       [HttpGet]
-      public async Task<IEnumerable<Organization>> GetAllAsync() => await _service.GetAllAsync();
+      public async Task<IEnumerable<OrganizationDto>> GetAllAsync() => await _service.GetAllAsync();
 
       [HttpGet("{slug}")]
       [ActionName(nameof(GetBySlugAsync))]
-      public async Task<ActionResult<Organization>> GetBySlugAsync(string slug)
+      public async Task<ActionResult<OrganizationDto>> GetBySlugAsync(string slug)
       {
          var result = await _service.GetBySlugAsync(slug);
          if (result is null) return NotFound();
@@ -26,14 +26,14 @@ namespace JoladnijoBackendNet.Web.Controllers
       }
 
       [HttpPost]
-      public async Task<ActionResult<Organization>> AddAsync(Organization organization)
+      public async Task<ActionResult<OrganizationDto>> AddAsync(OrganizationDto organization)
       {
          var result = await _service.AddAsync(organization);
          return CreatedAtAction(nameof(GetBySlugAsync), new { slug = result.Slug }, result);
       }
 
       [HttpPut("{slug}")]
-      public async Task<ActionResult<Organization>> UpdateAsync(string slug, Organization organization) { 
+      public async Task<ActionResult<OrganizationDto>> UpdateAsync(string slug, OrganizationDto organization) { 
          var result = await _service.UpdateAsync(slug, organization);
          if (result is null) return NotFound();
          return Ok(result);
