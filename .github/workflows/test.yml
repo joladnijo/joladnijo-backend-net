@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:6.0
+    services:
+      database:
+        image: ghcr.io/joladnijo/mysql:8.0-2
+        env:
+          MYSQL_ROOT_PASSWORD: testrootpassword
+          MYSQL_USER: svc_backend
+          MYSQL_PASSWORD: testsvcpassword
+          MYSQL_DATABASE: joladnijo
+          
+    steps:
+      - uses: actions/checkout@v2
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+      - name: Test
+        run: dotnet test ./test/JoladnijoBackendNet.Web.IntegrationTests --no-build --no-restore --configuration Release --logger "trx;LogFileName=test.trx"
