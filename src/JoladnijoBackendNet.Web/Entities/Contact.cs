@@ -1,4 +1,6 @@
-﻿namespace JoladnijoBackendNet.Web.Entities;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace JoladnijoBackendNet.Web.Entities;
 public class Contact
 {
    public Guid Id { get; set; }
@@ -8,7 +10,13 @@ public class Contact
    public string Facebook { get; set; }
    public string Url { get; set; }
    public Organization Organization { get; set; }
-   public Guid OrganizationId { get; set; }
    public AidCenter AidCenter { get; set; }
-   public Guid AidCenterId { get; set; }
+}
+
+public class ContactConfiguration : IEntityTypeConfiguration<Contact>
+{
+   public void Configure(EntityTypeBuilder<Contact> builder)
+   {
+      builder.Property(x => x.Phone).HasMaxLength(20).IsRequired();      
+   }
 }

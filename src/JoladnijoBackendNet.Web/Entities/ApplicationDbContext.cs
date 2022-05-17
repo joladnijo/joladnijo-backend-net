@@ -11,7 +11,7 @@ public class ApplicationDbContext : DbContext
    {
       base.ConfigureConventions(configurationBuilder);
 
-      configurationBuilder.Properties<string>().HaveMaxLength(255);
+      configurationBuilder.Properties<string>().HaveMaxLength(255);      
    }
 
    protected override void OnModelCreating(ModelBuilder modelBuilder)
