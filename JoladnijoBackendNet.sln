@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3F5E3414-21C1-4290-AA78-8B33CD5894BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JoladnijoBackendNet.Web", "src\JoladnijoBackendNet.Web\JoladnijoBackendNet.Web.csproj", "{8A7F4903-C3FB-4E0D-A78C-944943EB56FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1B2C8CA2-B975-42ED-BBBC-CDBE2EE12C4D}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04209E64-7246-488C-9A1C-83209B60028E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JoladnijoBackendNet.Web.IntegrationTests", "test\JoladnijoBackendNet.Web.IntegrationTests\JoladnijoBackendNet.Web.IntegrationTests.csproj", "{9B6455B6-502B-4E75-832F-0E95F94559BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A7F4903-C3FB-4E0D-A78C-944943EB56FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7F4903-C3FB-4E0D-A78C-944943EB56FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7F4903-C3FB-4E0D-A78C-944943EB56FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7F4903-C3FB-4E0D-A78C-944943EB56FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6455B6-502B-4E75-832F-0E95F94559BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6455B6-502B-4E75-832F-0E95F94559BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6455B6-502B-4E75-832F-0E95F94559BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6455B6-502B-4E75-832F-0E95F94559BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A7F4903-C3FB-4E0D-A78C-944943EB56FE} = {3F5E3414-21C1-4290-AA78-8B33CD5894BC}
+		{9B6455B6-502B-4E75-832F-0E95F94559BD} = {04209E64-7246-488C-9A1C-83209B60028E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71D9FA5F-8771-44B0-A494-0A84DE4319F3}
+	EndGlobalSection
+EndGlobal
