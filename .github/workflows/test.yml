@@ -26,3 +26,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Test
         run: dotnet test ./test/JoladnijoBackendNet.Web.IntegrationTests --configuration Release --logger "trx;LogFileName=test.trx"
+        env:
+          ConnectionStrings__MySql: "server=database;user=svc_backend;password=testsvcpassword;database=joladnijo"
