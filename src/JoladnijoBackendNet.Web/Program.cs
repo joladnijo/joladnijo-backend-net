@@ -1,6 +1,4 @@
 ﻿using FluentValidation.AspNetCore;
-using JoladnijoBackendNet.Web.Entities;
-using JoladnijoBackendNet.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
