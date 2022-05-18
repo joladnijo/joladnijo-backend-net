@@ -1,13 +1,10 @@
-﻿using AutoMapper;
+﻿namespace JoladnijoBackendNet.Web.MapperProfiles;
 
-namespace JoladnijoBackendNet.Web.MapperProfiles
+public class OrganizationProfile : Profile
 {
-   public class OrganizationProfile : Profile
+   public OrganizationProfile()
    {
-      public OrganizationProfile()
-      {
-         CreateMap<Organization, OrganizationDto>();
-         CreateMap<OrganizationDto, Organization>();
-      }
+      CreateMap<Organization, OrganizationDto>();
+      CreateMap<OrganizationDto, Organization>();
    }
 }

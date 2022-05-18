@@ -13,9 +13,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     );
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddScoped<ContactsService>();
-builder.Services.AddScoped<OrganizationsService>();
-
 builder.Services.AddControllers().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

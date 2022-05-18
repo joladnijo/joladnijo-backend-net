@@ -1,6 +1,4 @@
-﻿using JoladnijoBackendNet.Web.Entities;
-using JoladnijoBackendNet.Web.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace JoladnijoBackendNet.Web.Controllers;
 
@@ -8,41 +6,67 @@ namespace JoladnijoBackendNet.Web.Controllers;
 [ApiController]
 public class ContactsController : ControllerBase
 {
-   private readonly ContactsService _service;
+   private readonly ApplicationDbContext _dbContext;
+   private readonly IMapper _mapper;
 
-   public ContactsController(ContactsService service)
+   public ContactsController(ApplicationDbContext dbContext, IMapper mapper)
    {
-      _service = service;
+      _dbContext = dbContext;
+      _mapper = mapper;
    }
 
    [HttpGet]
-   public async Task<ActionResult<IEnumerable<Contact>>> GetAllAsync()
-   {
-      var result = await _service.GetAllAsync();
-      return Ok(result);
-   }
+   public async Task<IEnumerable<ContactDto>> GetAllAsync() 
+      => await _dbContext.Contacts
+      .ProjectTo<ContactDto>(_mapper.ConfigurationProvider)
+      .ToListAsync();
 
    [HttpGet("{id}")]
-   public async Task<ActionResult<Contact>> GetByIdAsync(Guid id)
+   public async Task<ActionResult<ContactDto>> GetByIdAsync(Guid id)
    {
-      var result = await _service.GetByIdAsync(id);
-      if (result is null) return NotFound(id);
-      return Ok(result);
+      var entity = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.Id == id);
+      if (entity is null) return NotFound();
+
+      var ret = _mapper.Map<ContactDto>(entity);
+
+      return Ok(ret);
    }
 
    [HttpPost]
-   public async Task<ActionResult<Contact>> AddAsync(Contact contact)
+   public async Task<ActionResult<ContactDto>> AddAsync(CreateContactDto dto)
    {
-      var result = await _service.AddAsync(contact);
-      return CreatedAtAction(nameof(GetByIdAsync), new { id = contact.Id }, contact);
+      var entity = _mapper.Map<Contact>(dto);
+
+      _dbContext.Add(entity);
+      var result = await _dbContext.SaveChangesAsync();
+
+      var ret = _mapper.Map<ContactDto>(entity);
+      return CreatedAtAction(nameof(GetByIdAsync), new { id = ret.Id }, ret);
    }
 
    [HttpPut("{id}")]
-   public async Task<ActionResult<Contact>> UpdateAsync(Guid id, Contact contact)
+   public async Task<ActionResult<ContactDto>> UpdateAsync(Guid id, CreateContactDto dto)
    {
-      contact.Id = id;
-      var result = await _service.UpdateAsync(contact);
-      if (result is null) return NotFound(contact);
-      return Ok(result);
+      var entity = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.Id == id);
+      if (entity is null) return NotFound();
+
+      entity = _mapper.Map(dto, entity);
+      await _dbContext.SaveChangesAsync();
+
+      var ret = _mapper.Map<ContactDto>(entity);
+      return Ok(ret);
+   }
+
+   [HttpDelete("{id}")]
+   public async Task<ActionResult<ContactDto>> DeleteAsync(Guid id)
+   {
+      var entityToDelete = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.Id == id);
+      if (entityToDelete is null) return NotFound();
+
+      _dbContext.Remove(entityToDelete);
+      await _dbContext.SaveChangesAsync();
+
+      var ret = _mapper.Map<ContactDto>(entityToDelete);
+      return Ok(ret);
    }
 }
