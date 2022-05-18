@@ -1,7 +1,5 @@
 ﻿namespace JoladnijoBackendNet.Web.Dtos;
 
-public class OrganizationDto
+public class OrganizationDto : OrganizationBase
 {
-   public string Name { get; set; }
-   public string Slug { get; set; }
 }

@@ -2,11 +2,15 @@
 
 namespace JoladnijoBackendNet.Web.Entities;
 
-public class Organization
+public abstract class OrganizationBase
+{
+   public string Name { get; set; }
+   public string Slug { get; set; }   
+}
+
+public class Organization : OrganizationBase
 {
    public Guid Id { get; set; }
-   public string Name { get; set; }
-   public string Slug { get; set; }
    public Guid? ContactId { get; set; }
    public Contact Contact { get; set; }
 }
