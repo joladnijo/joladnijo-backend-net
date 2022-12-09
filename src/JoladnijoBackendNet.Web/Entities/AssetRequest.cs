@@ -11,6 +11,7 @@ public class AssetRequest
    public AidCenter AidCenter { get; set; }
    public Guid AssetTypeId { get; set; }
    public AssetType AssetType { get; set; }
+   public List<FeedItem> FeedItems { get; set; }
 }
 
 public enum AssetRequestStatus

@@ -2,7 +2,7 @@
 
 namespace JoladnijoBackendNet.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/asset-categories")]
 [ApiController]
 public class AssetCategoryController : ControllerBase
 {
@@ -16,11 +16,8 @@ public class AssetCategoryController : ControllerBase
    }
 
    [HttpGet]
-   public async Task<ActionResult<IEnumerable<AssetCategoryDto>>> GetAllAsync()
-   {
-      var result = await _dbContext.AssetCategories.ProjectTo<AssetCategoryDto>(_mapper.ConfigurationProvider).ToListAsync();
-      return Ok(result);
-   }
+   public async Task<ActionResult<IEnumerable<AssetCategoryDto>>> GetAllAsync() 
+      => await _dbContext.AssetCategories.ProjectTo<AssetCategoryDto>(_mapper.ConfigurationProvider).ToListAsync();
 
    [HttpGet("{id}")]
    [ActionName(nameof(GetByIdAsync))]
@@ -32,7 +29,7 @@ public class AssetCategoryController : ControllerBase
          .FirstOrDefaultAsync(x => x.Id == id);
 
       if (result is null) return NotFound();
-      return Ok(result);
+      return result;
    }
 
    [HttpPost]
@@ -50,7 +47,7 @@ public class AssetCategoryController : ControllerBase
    public async Task<ActionResult<AssetCategoryDto>> UpdateAsync(Guid id, CreateAssetCategoryDto dto)
    {
       var entity = await _dbContext.AssetCategories.FirstOrDefaultAsync(x => x.Id == id);
-      if (entity is null) return null;
+      if (entity is null) return NotFound();
 
       entity = _mapper.Map(dto, entity);
       await _dbContext.SaveChangesAsync();
@@ -63,7 +60,7 @@ public class AssetCategoryController : ControllerBase
    public async Task<ActionResult<AssetCategoryDto>> DeleteAsync(Guid id)
    {
       var entityToDelete = await _dbContext.AssetCategories.FirstOrDefaultAsync(x => x.Id == id);
-      if (entityToDelete is null) return null;
+      if (entityToDelete is null) return NotFound();
 
       _dbContext.Remove(entityToDelete);
       await _dbContext.SaveChangesAsync();

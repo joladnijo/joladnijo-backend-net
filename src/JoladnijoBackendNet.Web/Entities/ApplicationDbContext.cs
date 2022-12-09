@@ -19,6 +19,8 @@ public class ApplicationDbContext : DbContext
       base.OnModelCreating(modelBuilder);
 
       modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+
+      DataSeeder.SeedWithDefault(modelBuilder);
    }
 
    public DbSet<Organization> Organizations { get; set; }

@@ -2,7 +2,7 @@
 
 namespace JoladnijoBackendNet.Web.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/contacts")]
 [ApiController]
 public class ContactsController : ControllerBase
 {
@@ -27,9 +27,7 @@ public class ContactsController : ControllerBase
       var entity = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.Id == id);
       if (entity is null) return NotFound();
 
-      var ret = _mapper.Map<ContactDto>(entity);
-
-      return Ok(ret);
+      return _mapper.Map<ContactDto>(entity);
    }
 
    [HttpPost]
@@ -53,8 +51,7 @@ public class ContactsController : ControllerBase
       entity = _mapper.Map(dto, entity);
       await _dbContext.SaveChangesAsync();
 
-      var ret = _mapper.Map<ContactDto>(entity);
-      return Ok(ret);
+      return _mapper.Map<ContactDto>(entity);
    }
 
    [HttpDelete("{id}")]
@@ -66,7 +63,6 @@ public class ContactsController : ControllerBase
       _dbContext.Remove(entityToDelete);
       await _dbContext.SaveChangesAsync();
 
-      var ret = _mapper.Map<ContactDto>(entityToDelete);
-      return Ok(ret);
+      return _mapper.Map<ContactDto>(entityToDelete);
    }
 }

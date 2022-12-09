@@ -2,7 +2,7 @@
 
 namespace JoladnijoBackendNet.Web.Controllers
 {
-   [Route("api/[controller]")]
+   [Route("api/organizations")]
    [ApiController]
    public class OrganizationsController : ControllerBase
    {
