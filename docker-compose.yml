@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: src/Dockerfile
+  
+  database:
+    image: ghcr.io/joladnijo/mysql:8.0-2
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: testrootpassword
+      MYSQL_USER: svc_backend
+      MYSQL_PASSWORD: testsvcpassword
+      MYSQL_DATABASE: joladnijo
